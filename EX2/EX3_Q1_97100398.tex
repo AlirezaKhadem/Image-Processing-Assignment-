@@ -1,0 +1,169 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{HomeWorkTemplate}
+
+\usepackage[utf8]{inputenc}
+\usepackage[]{babel}
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{0.5em}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern, textcomp}
+\usepackage{circuitikz}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{xepersian}
+\settextfont{XB Niloofar}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{circuits.logic.US}
+\usepackage{changepage}
+\newcounter{problemcounter}
+\newcounter{subproblemcounter}
+\setcounter{problemcounter}{1}
+\setcounter{subproblemcounter}{1}
+\newcommand{\problem}[1]
+{
+	\subsection*{
+		پرسش
+		\arabic{problemcounter} 
+		\stepcounter{problemcounter}
+		\setcounter{subproblemcounter}{1}
+		#1
+	}
+}
+\newcommand{\subproblem}{
+	\textbf{\harfi{subproblemcounter})}\stepcounter{subproblemcounter}
+}
+
+
+\begin{document}
+	\handout
+	{اصول پردازش تصویر}
+	{دکتر مصطفی کمالی تبریزی}
+	{نیم‌سال اول 1399\lr{-}1400}
+	{اطلاعیه}
+	{سیدعلیرضا خادم}
+	{97100398}
+	{تمرین سری دوم - سوال اول}
+	\section*{موارد لازم.}
+	برای اجرا لازم است تا تصویر
+	\lr{flowers\_blur.jpg}
+	در مسیر
+	\lr{EX2\_Q1/images/}
+	قرار داشته باشد.
+	\section*{روند کلی حل.}
+	ایده اصلی و انتخاب ماتریس برای 
+	\lr{sharpening}
+	برگرفته از جلسه ویدئو جلسه 7ام درس و صفحلات 13، 14 و 15 اسلاید‌های جلسه 7ام درس می‌باشد. روندی که برای محاسبه بهترین 
+	\lr{alpha}
+	به عنوان ضریب
+	\lr{unsharp\_image}
+	در تابع 
+	\lr{unsharp}
+	طی شده است به صورت تجربی و بر پایه الگوریتم باینری سرچ بوده. به این شکل که در ابتدا به ازای
+	\lr{alpha = 1}
+	،
+	\lr{alpha = 0.5}
+	و
+	\lr{alpha = 0}
+	همانطور که تصاویر در مسیر 
+	\lr{EX2\_Q1/images/}
+	مشاهده است مقایسه انجام شده و نتیجه گرفته شد که
+	\lr{alpha}
+	مناسب مقداری بین
+	\lr{1}
+	و 
+	\lr{0.5}
+	دارد و .... . تا در نهایت به 
+	\lr{ahpha = .625}
+	رسیدیم. 
+	
+	\section*{توضیح کد.}
+	برنامه در مجموع حاوی 2 فایل با فرمت
+	\lr{.py}
+	می‌باشد که توضیحات هر فایل در پایین آمده است.
+	\subsection*{$\circ$ utilities.py}
+	\subsubsection*{apply\_unsharp\_filter(input\_channel)}
+	این  تابع 
+	\lr{input\_channel}
+	را به عنوان ورودی می‌گیرد و ماتریسی که در پایین آمده را با 
+	\lr{input\_channel}
+	کانوالو می‌کند و به عنوان خروجی بر می‌گرداند.\\
+	\begin{align*}
+		\begin{bmatrix}
+			-1 & -1 & -1\\
+			-1 & 8  & -1\\
+			-1 & -1 & -1
+		\end{bmatrix}
+	\end{align*}
+	
+	\subsubsection*{unsharp(src\_image)}
+	تابع 
+	\lr{unsharp}
+	یک تصویر به عنوان ورودی می‌گیرد  سپس با استفاده از تابع 
+	\lr{cv.split}
+	آن را به کانال‌های 
+	\lr{B}
+	،
+	\lr{G}
+	و
+	\lr{R}
+	تجزیه می‌کند. در نهایت بعد از اینکه فیلتر 
+	\lr{unsharp}
+	با استفاده از تابع 
+	\lr{apply\_unsharp\_filter}
+	روی کانال‌های مختلف اعمال شد، با استفاده از تابع 
+	\lr{cv.merge}
+	، 3 کانال 
+	\lr{unsharp}
+	شده را با هم مرج می‌کند تا تصویرِ
+	\lr{unsharp}
+	شده متناظر با 
+	\lr{src\_image}
+	حاصل شود و به عنوان خروجی باز گرداند.
+	\subsubsection*{\lr{sharp(src\_image, alpha)}}
+	این تابع تصویر 
+	\lr{src\_image}
+	که به عنوان ورودی گرفته است را به تابع 
+	\lr{unsharp}
+	میده تا 
+	\lr{unsharp}
+	شده آن را به دست آورد. سپس تصویر 
+	\lr{src\_image}
+	شده را با ضریب 
+	\lr{alpha}
+	از تصویر 
+	\lr{unsharp\_image}
+	جمع می‌کند و به عنوان خروجی برمی‌گرداند.
+	
+	\subsection*{$\circ$ q1.py}
+	در این فایل ابتدا تصویر 
+	\lr{flowers\_blur.jpg}
+	از مسیر 
+	\lr{EX2\_Q1/images/}
+	لود می‌شود سپس با استفاده از توابع 
+	\lr{unshar(src\_image)}
+	و
+	\lr{sharp(src\_image, .625)}
+	تصاویر 
+	sharp
+	و 
+	\lr{unsharp}
+	محاسبه می‌شوند و در نهایت به ترتیب با نام‌های 
+	\lr{res02.jpg}
+	و
+	\lr{res01.jpg}
+	در مسیر
+	\lr{EX2\_Q1/results/}
+	ذخیره می‌شوند.
+	
+	
+\end{document}

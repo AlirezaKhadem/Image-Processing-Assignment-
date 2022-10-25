@@ -1,0 +1,142 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{HomeWorkTemplate}
+
+\usepackage[utf8]{inputenc}
+\usepackage[]{babel}
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{0.5em}
+
+\renewcommand{\baselinestretch}{1.5}
+
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern, textcomp}
+\usepackage{circuitikz}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{xepersian}
+\settextfont{XB Niloofar}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{circuits.logic.US}
+\usepackage{changepage}
+\newcounter{problemcounter}
+\newcounter{subproblemcounter}
+\setcounter{problemcounter}{1}
+\setcounter{subproblemcounter}{1}
+\newcommand{\problem}[1]
+{
+	\subsection*{
+		پرسش
+		\arabic{problemcounter} 
+		\stepcounter{problemcounter}
+		\setcounter{subproblemcounter}{1}
+		#1
+	}
+}
+\newcommand{\subproblem}{
+	\textbf{\harfi{subproblemcounter})}\stepcounter{subproblemcounter}
+}
+
+
+\begin{document}
+\handout
+{اصول پردازش تصویر}
+{دکتر مصطفی کمالی تبریزی}
+{نیم‌سال اول 1399\lr{-}1400}
+{اطلاعیه}
+{سیدعلیرضا خادم}
+{97100398}
+ {تمرین سری اول - سوال چهارم}
+\section*{موارد لازم.}\label{n}
+برای اینکه کد 
+$ q_4.py $
+به درستی اجرا شود، لازم است که تصاویر
+\lr{Dark.jpg}
+و
+\lr{Pink.jpg}
+ در مسیرِ 
+\lr{EX1\_Q4/images/}
+قرار بگیرد.
+\section*{روند کلی حل.}
+حل این سوال به صورت تکنیکال انجام می‌شود و نحوه انجام آن از 
+\textbf{توضیح کد}
+قابل فهم است.
+\section*{توضیح کد.}
+\subsection*{$\circ$ utilities.py}
+\subsubsection*{find\_nearst}
+این تابع یه آرایه و یه 
+\lr{value}
+ را به عنوان ورودی می‌گیرد و اندیسِ نزدیکترین مقدار در آرایه به این
+ \lr{value}
+ را برمی‌گرداند.
+ \subsubsection*{histogram}
+ این تابع یک آرایه (عکس) را به عنوان ورودی می‌گیرد و هیستوگرام آن را به عنوان خروجی برمی‌گرداند.
+ \subsubsection*{one\_channel\_histogram\_specified}
+ این تابع دو چنل را به عنوانِ
+ \lr{target\_channel}
+ و 
+ \lr{input\_channel}
+ می‌گیردو ابتدا هیستگرام این دو را با استفاده از تابع
+ \lr{histogram}
+ محاسبه می‌کند و بعد تابع توزیع تجمعی این دو هستوگرام را با استفاده از تابع 
+ \lr{cumsum}
+ محاسبه می‌کند و به ترتیب  در
+  \lr{cdf\_target}
+ و 
+ \lr{cdf\_input}
+ می‌ریزد بعد هر دو را نرمال می‌کند. در ادامه در یک لوپ که از 255 تا 0 است به ازای هر 
+ \lr{intensity}
+ مقدارش را در تابع توزیع تجمعی نرمال شده‌یِ 
+ \lr{input\_channel}
+ نگاه می‌کند و نزدیکترین مقدار را در تابع توزیع تجمعیِ
+ \lr{target\_channel}
+ با استفاده از تابع 
+ \lr{find\_nearest}
+ سرچ می‌زنیم و اندیسی که تابع 
+ \lr{find\_nearest}
+ برمی‌گرداند را به عنوان 
+ \lr{intensity}
+ ای که قرار است به آن مپ شود در نظر می‌گیریم. و در نهایت 
+  \lr{output}
+  را که 
+  \lr{histogram specified}
+  شده‌یِ 
+  \lr{input\_channel}
+  است را به عنوان خروجی برمی‌گردانیم.
+  \subsubsection*{histogram\_specified}
+  این تابع یک عکس را به عنوان 
+  \lr{input\_image}
+  و یک عکس را به عنوان
+  \lr{target\_image}
+  ورودی می‌گیرد و کانال‌های هر یک را با استفاده از تابع
+  \lr{split}
+  و هیستگرامِ کانال‌هایِ 
+  \lr{input\_image}
+  را با استفاده از تابع \\
+  \lr{one\_channel\_histogram\_specified}
+  به هیستوگرامِ کانال متانظرشان تبدیل می‌کنیم. در نهایت هم سه کانال حال از
+  \lr{one\_channel\_histogram\_specified}
+  را با هم مرج می‌کنیم و به عنوان خروجی می‌دهیم.
+\subsection*{$\circ$ q4.py}
+در این فایل ابتدا تصویر 
+\lr{original}
+و 
+\lr{target}
+لود شده است و بعد با استفاده از تابع 
+\lr{histogram\_specified}
+هیستگرام عکس اصلی 
+\lr{specified}
+شده و نتیجه در مسیر
+\lr{EX1\_Q4/results/}
+  ذخیره شده است.
+\end{document}

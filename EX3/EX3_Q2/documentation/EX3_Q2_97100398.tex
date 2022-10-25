@@ -1,0 +1,97 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{HomeWorkTemplate}
+
+\usepackage[utf8]{inputenc}
+\usepackage[]{babel}
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{0.5em}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern, textcomp}
+\usepackage{circuitikz}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{xepersian}
+\settextfont{XB Niloofar}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{circuits.logic.US}
+\usepackage{changepage}
+\newcounter{problemcounter}
+\newcounter{subproblemcounter}
+\setcounter{problemcounter}{1}
+\setcounter{subproblemcounter}{1}
+\newcommand{\problem}[1]
+{
+	\subsection*{
+		پرسش
+		\arabic{problemcounter} 
+		\stepcounter{problemcounter}
+		\setcounter{subproblemcounter}{1}
+		#1
+	}
+}
+\newcommand{\subproblem}{
+	\textbf{\harfi{subproblemcounter})}\stepcounter{subproblemcounter}
+}
+
+
+\begin{document}
+	\handout
+	{اصول پردازش تصویر}
+	{دکتر مصطفی کمالی تبریزی}
+	{نیم‌سال اول 1399\lr{-}1400}
+	{اطلاعیه}
+	{سیدعلیرضا خادم}
+	{97100398}
+	{تمرین سری سوم - سوال دوم}
+	زمان حدودی اجرا : 1 دقیقه و 45 ثانیه
+	\section*{موارد لازم.}
+	برای اجرا لازم است تا تصویر
+	\lr{park.jpg}
+	در مسیر
+	\lr{EX3\_Q2/}
+	قرار داشته باشد. همچنین در پیاده‌سازی این سوال از کتابخانه‌های 
+	\lr{numpy}
+	و
+	\lr{cv2}
+	استفاده شده است که قبل از اجرا بایستی این کتابخانه‌ها روی سیستم شما نصب باشد.
+	\section*{روند کلی حل.}
+	حل این سوال با استفاده از توابع موجود در کتابخانه 
+	\lr{sklearn}
+	صورت گرفته است. با توجه به اینکه سایز عکس برای الگوریتم 
+	\lr{Mean-shift}
+	بزرگ بوده و اجرای این الگوریتم روی عکسی با سایز اصلی بسیار زمان بر است، عکس را 25 برابر کوچک می‌کنیم.
+	
+	
+	\section*{توضیح کد.}
+	برنامه حاوی 1 فایل با فرمت
+	\lr{.py}
+	می‌باشد که توضیح آن در پایین آمده است.
+	
+	\subsection*{$\circ$ q2.py}
+	ابتدا تصویر 
+	\lr{park.jpg}
+	از مسیر 
+	\lr{EX3\_Q2/images}
+	را در 
+	\lr{src\_image}
+	ذخیره می‌کنیم و بعد عکس را 25 برابر کوچک می‌کنیم. در ادامه طبق روندی که در کد با کامنت توضیح داده شده، با استفاده از توابعِ 
+	\lr{sklearn.cluster}
+	الگوریتم را روی عکس 25 برابر کوچک شده اجرا می‌کنیم و در نهایت نتیجه را با نام 
+	\lr{res04.jpg}
+	در مسیر 
+	\lr{EX3\_Q2/results/}
+	ذخیره می‌کنیم.
+	
+	
+	
+\end{document}

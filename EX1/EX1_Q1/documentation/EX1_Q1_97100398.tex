@@ -1,0 +1,160 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{HomeWorkTemplate}
+
+\usepackage[utf8]{inputenc}
+\usepackage[]{babel}
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{0.5em}
+
+\renewcommand{\baselinestretch}{1.5}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern, textcomp}
+\usepackage{circuitikz}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{xepersian}
+\settextfont{XB Niloofar}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{circuits.logic.US}
+\usepackage{changepage}
+\newcounter{problemcounter}
+\newcounter{subproblemcounter}
+\setcounter{problemcounter}{1}
+\setcounter{subproblemcounter}{1}
+\newcommand{\problem}[1]
+{
+	\subsection*{
+		پرسش
+		\arabic{problemcounter} 
+		\stepcounter{problemcounter}
+		\setcounter{subproblemcounter}{1}
+		#1
+	}
+}
+\newcommand{\subproblem}{
+	\textbf{\harfi{subproblemcounter})}\stepcounter{subproblemcounter}
+}
+
+
+\begin{document}
+\handout
+{اصول پردازش تصویر}
+{دکتر مصطفی کمالی تبریزی}
+{نیم‌سال اول 1399\lr{-}1400}
+{اطلاعیه}
+{سیدعلیرضا خادم}
+{97100398}
+ {تمرین سری اول - سوال اول}
+\section*{موارد لازم.}
+برای اینکه کد 
+$ q_1.py $
+به درستی اجرا شود، لازم است که تصویرِ ورودی با نامِ
+\lr{Dark.jpg}
+در مسیرِ 
+\lr{EX1\_Q1/images/}
+قرار بگیرد.
+\section*{روند کلی حل.}
+با توجه به اینکه تصوری که به عنوان ورودیِ سوال داده شده است یک تصویرِ تیره است که بسیاری از 
+\lr{pixel}
+هایِ آن دارای 
+\lr{intensity}
+کمی هستند روشن تر کردن تصویر، می‌تواند با استفاده از روش‌های 
+\lr{Image Enhancement}
+مبتنی بر 
+\lr{Point Operations}
+انجام شود.\\
+در این سوال با ابتدا 
+\lr{histogram}
+عکس ورودی را رسم کردیم، بعد با توجه به اینکه مشاهده شد که
+\lr{histogram}
+عکس توزیعِ مناسبی از 
+ \lr{intensity}
+ را نشان می‌داد و تنها مقدارِ
+ \lr{intensity}
+ ها کم بود تصمیم بر این شد که تنها مقدار این 
+ \lr{intensity}
+ ها در ثابتِ 4 ضرب شود. دلیل عدم استفاده از 
+ \lr{Log-Transformation}
+ و 
+ \lr{Gamma-Transformation}
+ این بود که این 
+ \lr{transformation}
+ ها هستوگرام عکس رو به صورتی تغییر میدادند که باعث کم شدنِ
+ \lr{contrast} 
+عکس و مصنوعی شدن آن می‌شدند.\\ برایِ مشاهده‌ی این موضوع می‌توانید نمودارهایی که در عکسِ
+\lr{res.png}
+در مسیر
+\lr{EX1\_Q1/results/}
+است را مشاهده کنید که به ترتیب از بالا به پایین نتیجه‌ی ضرب عکس در ثابتِ 4 ، 
+$ Gamma-Transformation :gamma = 0.25 $
+و
+$Log-Transformation : coefficient = 1.2 $
+است و از چپ به راست 
+\lr{channel}
+هایِ آبی، سبز و قرمز را نشان میدهد. (نمودار نارنجی رنگ هیستوگرام نرمال شده و نمودار آبی رنگ تابع توزیع تجمعی نرمال شده را نشان میدهند)
+\section*{توضیح کد.}
+\subsection*{$\circ$ utilities.py}
+\subsection*{\text{gamma\_transformation}}
+این تابع یک تصویر و یک 
+\lr{gamma}
+به عنوان ورودی می‌گیرد و نیتیجه‌یِ اعمال 
+\lr{Gamma-Transformation}
+با این 
+\lr{gamma}
+را روی عکس برمی گرداند.
+\subsubsection*{log\_transformation}
+این تابع یک تصویر و یک 
+\lr{coefficient}
+به عنوان ورودی می‌گیرد و نیتیجه‌یِ اعمال 
+\lr{Log-Transformation}
+با ضریب
+\lr{coefficient}
+ روی عکس را برمی گرداند.
+ \subsubsection*{get\_histogram}
+ یک تصویر به عنوان ورودی می‌گیرد و هیستوگرامِ کانال‌هایِ 
+ \lr{B}
+ ،
+\lr{G}
+و
+\lr{R}
+را به صورت یک سه‌تایی برمی‌گرداند.
+\subsubsection*{get\_cdf}
+یک تصویر به عنوان ورودی می‌گیرد و تابع توزیع تجمعیِ کانال‌هایِ 
+\lr{B}
+،
+\lr{G}
+و
+\lr{R}
+را به صورت یک سه‌تایی برمی‌گرداند.
+\subsubsection*{plot\_cdf , plot\_pdf}
+این توابع برای 
+\lr{plot}
+کردن هستوگرام‌ها و تابع توزیع تجمعی‌ها و همچنین جلوگیری از تکرار کد پیاده‌سازی شده است.
+\subsection*{$\circ$ q1.py}
+در این فایل تصویر لود شده و بعد سه 
+\lr{tranformation}
+روی تصویر اعمال شده است که تنها اولی مد نظر ما بوده و دو
+\lr{transformation}
+  دیگر برای استدال عدم استفاده از 
+\lr{Log-Transformation}
+و 
+\lr{Gamma-Transformation}
+انجام شده. بعد 
+\lr{cdf}
+و 
+\lr{pdf}
+مربوط به این سه نتیجه آماده‌یِ نمایش می‌شود و در نهایت 
+\lr{result\_1}
+که نتیجه‌یِ مطلوب ما است به عنوان پاسخ تمرین ذخیره می‌شود و بعد نمودار‌ها برایِ مقایسه سه 
+\lr{transformation}
+ای که روی تصور اعمال شده بود، نمایش داده می‌شود.
+
+\end{document}

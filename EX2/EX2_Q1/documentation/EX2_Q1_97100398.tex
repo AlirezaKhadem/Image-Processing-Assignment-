@@ -1,0 +1,136 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{HomeWorkTemplate}
+
+\usepackage[utf8]{inputenc}
+\usepackage[]{babel}
+
+\setlength{\parindent}{4em}
+\setlength{\parskip}{0.5em}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern, textcomp}
+\usepackage{circuitikz}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{xepersian}
+\settextfont{XB Niloofar}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{circuits.logic.US}
+\usepackage{changepage}
+\newcounter{problemcounter}
+\newcounter{subproblemcounter}
+\setcounter{problemcounter}{1}
+\setcounter{subproblemcounter}{1}
+\newcommand{\problem}[1]
+{
+	\subsection*{
+		پرسش
+		\arabic{problemcounter} 
+		\stepcounter{problemcounter}
+		\setcounter{subproblemcounter}{1}
+		#1
+	}
+}
+\newcommand{\subproblem}{
+	\textbf{\harfi{subproblemcounter})}\stepcounter{subproblemcounter}
+}
+
+
+\begin{document}
+\handout
+{اصول پردازش تصویر}
+{دکتر مصطفی کمالی تبریزی}
+{نیم‌سال اول 1399\lr{-}1400}
+{اطلاعیه}
+{سیدعلیرضا خادم}
+{97100398}
+{تمرین سری سوم - سوال اول}
+\section*{موارد لازم.}
+برای اجرا لازم است تا فایل
+ \lr{Points.txt}
+در مسیر
+\lr{EX3\_Q1/}
+قرار داشته باشد. همچنین در پیاده‌سازی این سوال از کتابخانه‌های 
+\lr{pandas}
+،
+\lr{sklearn}
+و
+\lr{matplotlib}
+استفاده شده است که قبل از اجرا بایستی این کتابخانه‌ها روی سیستم شما نصب باشد.
+\section*{روند کلی حل.}
+همانطور که در صورت سوال خواسته شده با استفاده از تابع 
+\lr{matplotlib.pyplot.scatter}
+نمایش نقاط در فضای دو بعدی را با نام 
+\lr{res01.jpt}
+در مسیر 
+\lr{EX3\_Q1/results}
+ذخیره می‌کنیم. نمایش مجموعه نقاط موجود در فایل 
+\lr{Points.txt}
+تقریبا به صورت 2 دایره هم مرکز است. با اجرای الگوریتم 
+\lr{k-means}
+روی این مجموعه نقاط، با توجه به نوع آرایش نقاط در فضای دکارتی و با توجه به اینکه معیار شباهت  فاصله اقلیدسی نقاط در نظر گرفته شده است، همانطور که قابل پیش بینی بود و در شکل‌های 
+\lr{0.jpg}
+تا 
+\lr{9.jpg}
+نیز قابل مشاهده است مجموعه نقاط به صورتی کلاستربندی می‌شوند که دو طرف قطر دایره بزرگ قرار می‌گیرند. حال اگر نقاط را به فضای قطبی ببریم، نمایش آنها به صورتی که در شکل 
+\lr{10.jpg}
+در مسیر
+\lr{EX3\_Q1/results/}
+قابل مشاهده است در می‌آید. نتیجه اجرای الگوریتم 
+\lr{k-means}
+روی نقاط در فضای قطبی به صورت که در شکل 
+\lr{res03.jpg}
+مشاهده می‌کنید خواهد بود.
+
+
+
+\section*{توضیح کد.}
+برنامه در مجموع حاوی 2 فایل با فرمت
+\lr{.py}
+می‌باشد که توضیحات هر فایل در پایین آمده است.
+\subsection*{$\circ$ utilities.py}
+\subsubsection*{load\_data(points\_file\_data, number\_of\_points, data)}
+این  تابع مواردی که مشاهده می‌کنید به عنوان ورودی از کاربر می‌گیرد و بعد چاپ پیام 
+\lr{"please Enter mode. polar/cartesian ?!"}
+از کاربر می‌خواهد تا مود نمایش نقاط را مشخص کند.نقاط را از فایل ورودی می‌خواند وL در صورتی که کاربر
+\lr{polar}
+را وارد کند مختصات نقاط در فضای قطبی و اگر 
+\lr{cartesian}
+را وارد کند مختصات نقاط در فضای دکارتی در
+\lr{data}
+ذخیره میکند.
+
+
+\subsection*{$\circ$ q1.py}
+در این فایل ابتدا فایلِ  
+\lr{Points.txt}
+از مسیر 
+\lr{EX3\_Q1/}
+باز می‌شود سپس تعداد سطرهای فایل که نشان دهنده‌ی تعداد نقاط هستند در متغیر 
+\lr{num\_of\_points}
+ذخیره می‌شود. در ادامه با استفاده از تابع 
+\lr{load\_data}
+مختصات نقاط لود شده (با توجه به ورودی کاربر می‌تواند نقاط در مختصات قطبی یا درکارتی لود شده باشد) را در 
+\lr{data}
+ذخیره می‌کنیم. با استفاده از تابع 
+\lr{pandas.DataFrame}
+متغیر 
+\lr{data\_fram}
+را محاسبه می‌کنیم و به عنوان ورودی تابع
+\lr{sklear.cluster.KMeans.fit}
+از آن استفاده می‌کنیم. در نهایت هم نتیجه خوشه‌بندی را با استفاده از توابع \\
+\lr{matplotlib.pyplot.scatter}
+,
+\lr{ matplotlib.pyplot.show}
+نمایش می‌دهیم.	
+
+
+\end{document}
